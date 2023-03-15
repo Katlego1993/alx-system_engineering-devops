@@ -1,1 +1,1 @@
-0x02 shell IO redirections and filters readme file
+0x03 shell , init files, variables and expansions readme file
