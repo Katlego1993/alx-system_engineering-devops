@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#Displays listenin g ports with regard listening socket
+#PID and name of the program to which each socket belong to 
+
+netstat --listening --program
