@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 # Installing new server to serve content
-./0-nginx_likes_port_80
-echo "hi" > /var/run/nginx.pid
-echo "hi" > /run/nginx.pid
+
+in -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+# restart nginx
+service nginx start
+# terminatesz the first nginx process ID
+kill "$(pgrep 'nginx' | head -1)"
