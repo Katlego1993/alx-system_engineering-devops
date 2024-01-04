@@ -1,27 +1,18 @@
 #!/usr/bin/python3
-"""Python script that extends script from Task 0
-and exports data in JSON formatted file
-File must have all records
-"""
+'''Extend your Python script to export data in the JSON format.'''
+
 import json
 import requests
 import sys
 
-if __name__ == "__main__":
-    EMPLOYEE_ID = sys.argv[1]
-    USERNAME = requests.get(
-        "https://jsonplaceholder.typicode.com/users/{:d}"
-        .format(int(EMPLOYEE_ID))).json().get("username")
-    ALL_TASKS = []
-    TODOS = requests.get("https://jsonplaceholder.typicode.com/todos").json()
+if __name__ == '__main__':
+    url = 'https://jsonplaceholder.typicode.com/'
+    user = requests.get(url + 'users/{}'.format(sys.argv[1])).json()
+    todos = requests.get(url + 'todos', params={"userId": sys.argv[1]}).json()
 
-    for task in TODOS:
-        if (task.get("userId") == int(EMPLOYEE_ID)):
-            dict = {}
-            dict["task"] = task.get("title")
-            dict["completed"] = task.get("completed")
-            dict["username"] = USERNAME
-            ALL_TASKS.append(list)
-
-    with open("{}.json".format(EMPLOYEE_ID), 'w') as jsonfile:
-        json.dump({EMPLOYEE_ID: ALL_TASKS}, jsonfile)
+    with open("{}.json".format(sys.argv[1]), "w") as file:
+        json.dump({sys.argv[1]: [{
+            "task": todo.get("title"),
+            "completed": todo.get("completed"),
+            "username": user.get("username")
+        } for todo in todos]}, file)
